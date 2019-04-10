@@ -28,4 +28,4 @@ parts:
 apps: 
   cli53:
     command: cli53
-    plugs: [network-bind, network, home, network-control]
+    plugs: [network-bind, network, home, network-control, system-observe, process-control]
