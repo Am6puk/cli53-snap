@@ -1,0 +1,27 @@
+name: cli53
+version: 0.8.15
+summary: Command line tool for Amazon Route 53
+description: cli53 provides import and export from BIND format and simple command line management of Route 53 domains.
+grade: stable
+confinement: strict
+base: core18
+
+parts:
+  cli53:
+    plugin: go
+    source: https://github.com/barnybug/cli53.git
+    go-importpath: github.com/barnybug/cli53
+    source-type: git
+    go-buildtags: 
+     - 0.8.15
+    source-tag: 0.8.15
+    #source: .
+    go-packages:
+     - github.com/barnybug/cli53/cmd/cli53
+    build-packages:
+     - gcc
+
+apps: 
+  cli53:
+    command: cli53
+    plugs: [network-bind, network, home, network-control]
