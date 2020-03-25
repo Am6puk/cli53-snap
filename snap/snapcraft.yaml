@@ -1,5 +1,5 @@
 name: cli53
-version: 0.8.15
+version: 0.8.17
 summary: Command line tool for Amazon Route 53
 description: cli53 provides import and export from BIND format and simple command line management of Route 53 domains.
 grade: stable
@@ -12,20 +12,27 @@ architectures:
 
 parts:
   cli53:
-    plugin: go
-    source: https://github.com/barnybug/cli53.git
-    go-importpath: github.com/barnybug/cli53
-    source-type: git
-    go-buildtags: 
-     - 0.8.15
-    source-tag: 0.8.15
-    #source: .
-    go-packages:
-     - github.com/barnybug/cli53/cmd/cli53
-    build-packages:
-     - gcc
+    plugin: nil
+    override-pull: |
+      wget https://github.com/barnybug/cli53/releases/download/${SNAPCRAFT_PROJECT_VERSION}/cli53-linux-amd64
+    override-build: |
+      mv cli53-linux-amd64 $SNAPCRAFT_PART_INSTALL/cli53
+      # or you chould execute the file:
+      chmod +x $SNAPCRAFT_PART_INSTALL/cli53
+      echo $HOME
+
+plugs:
+  aws-profile:
+    interface: personal-files
+    read:
+      - $HOME/.aws/config
+      - $HOME/.aws/credentials
+
 
 apps: 
   cli53:
     command: cli53
-    plugs: [network-bind, network, home, network-control, system-observe, process-control]
+    plugs: 
+       - network
+       - home
+       - aws-profile
