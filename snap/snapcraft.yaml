@@ -27,7 +27,8 @@ plugs:
     read:
       - $HOME/.aws/config
       - $HOME/.aws/credentials
-
+build-packages:
+      - wget
 
 apps: 
   cli53:
