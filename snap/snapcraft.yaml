@@ -1,10 +1,12 @@
 name: cli53
-version: 0.8.17
+version: '0.8.17'
 summary: Command line tool for Amazon Route 53
 description: cli53 provides import and export from BIND format and simple command line management of Route 53 domains.
 grade: stable
 confinement: strict
 base: core18
+license: MIT
+
 
 architectures:
   - build-on: amd64
@@ -16,24 +18,20 @@ parts:
     override-pull: |
       wget https://github.com/barnybug/cli53/releases/download/${SNAPCRAFT_PROJECT_VERSION}/cli53-linux-amd64
     override-build: |
+      snapcraftctl build
       mv cli53-linux-amd64 $SNAPCRAFT_PART_INSTALL/cli53
-      # or you chould execute the file:
       chmod +x $SNAPCRAFT_PART_INSTALL/cli53
-      echo $HOME
 
-plugs:
-  aws-profile:
-    interface: personal-files
-    read:
-      - $HOME/.aws/config
-      - $HOME/.aws/credentials
 build-packages:
-      - wget
+  - wget
 
 apps: 
   cli53:
     command: cli53
+    environment:
+      HOME: /home/$USER
     plugs: 
-       - network
-       - home
-       - aws-profile
+      - home
+      - network
+      - network-bind
+      - network-observe
