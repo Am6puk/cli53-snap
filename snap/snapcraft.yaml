@@ -34,4 +34,4 @@ apps:
       - home
       - network
       - network-bind
-      - network-observe
+
